@@ -1,6 +1,6 @@
-# KKIB AREDN Solar
+# KK4IB AREDN Solar
 
-Wiring and performance notes for a 24 V solar node built from the parts below. The hookup drawing is `KKIB-AREDN-solar-wiring.jpeg`.
+Wiring and performance notes for a 24 V solar node built from the parts below. The hookup drawing is `KK4IB-AREDN-solar-wiring.jpeg`.
 
 ## Parts requested
 
