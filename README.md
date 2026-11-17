@@ -55,3 +55,49 @@ Holding a typical 12 W radio load through a 2.5-hour winter takes about a **180 
 At freezing, AGM capacity is about 80% of the 25 °C rating, so the runtimes above shorten by about a fifth. The sun hours are site averages.
 
 The model BC-20W-M24 matches the 20 W 24 V maintainer panels that carry an onboard AGM controller (published charge current about 0.56–0.83 A). The table uses the stated 25 W nameplate. A true 20 W panel lowers the sun column by 20% and leaves the same result.
+
+## Originator’s comments on the added parts
+
+The person who built the original three-part system read the “Parts added” section and replied that one objective of the experiment was simplicity.
+
+- The buck converter adds a net loss.
+- The charge controller already includes fuse-type protection.
+- The low-voltage disconnect adds a very small loss and an unnecessary complication.
+- PoE injectors are not needed.
+
+Those four parts work against that simplicity goal. They also do not change the energy result above: two NanoStations left on still outrun the 25 W panel.
+
+**Buck converter.** The loss is real. At about 92% efficiency, 12 W at the radios pulls about 13 W from the battery, roughly 1 W of continuous loss, about 25 Wh over a full day. A northern winter day collects about 44 Wh, so that loss is more than half of one day’s solar input. Runtime to a 50% discharge grows by about an hour if the buck is left out, from roughly 13 hours to about 14 hours. The radios then sit on the battery voltage. Float while the sun is holding a near-full battery is about 27.0–27.6 V, and absorption is about 28–29 V. The NanoStation M range is 22–27 V. That high-voltage window is midday, and it is longer in summer, whenever the panel is producing more than the radios use and the battery is still near full.
+
+**Fuse.** The controller’s protection is real on the charge leads. A short in the radio wiring is across the battery posts, so that fault current comes from the battery. The controller sits in parallel and does not open that path.
+
+**Low-voltage disconnect.** Its loss is tiny. The radios already pass a 50% discharge in about half a day of continuous running, and a NanoStation’s own low end is about 22 V, next to the 22.4 V setting. The disconnect only drops the load after the AGM is already deeply discharged.
+
+**PoE injectors.** A separate injector box is optional. Each NanoStation still needs 24 V on Ethernet pins 4 and 5, with the return on pins 7 and 8. The AC adapters that came with the radios do that from mains. From the battery, the same connection is a splice onto those pairs.
+
+### What to remove
+
+Remove the low-voltage disconnect and the separate PoE injector boxes. Keep the fuse and the buck converter.
+
+The disconnect does not fix the daily deficit. A boxed injector can be replaced by a splice onto pins 4 and 5 and 7 and 8, or by the AC adapters supplied with the radios when mains power is available.
+
+The fuse has no meaningful running loss and covers a battery-side short the controller does not. The buck is the part that costs energy, about 25 Wh on a day the radios never turn off, and it is what keeps 28–29 V absorption off the radio input. In strong sun the panel can exceed the radio load and hold a near-full AGM at that voltage.
+
+### Mobile use
+
+This node is a mobile system, used for outings, not left running continuously. The battery is the power source. The panel is the charger between outings.
+
+Two radios at 6 W each draw 12 W with no buck converter. A full battery holds 288 Wh. Staying inside a 50% discharge leaves 144 Wh.
+
+| Outing | Energy used | Share of the 50% window |
+|---|---|---|
+| 4 hours | 48 Wh | One third |
+| 8 hours, no sun counted | 96 Wh | Two thirds |
+| 8 hours in winter sun | about 52 Wh from the battery | About one third |
+| 8 hours in summer sun | about even with the panel | Little net drain |
+
+An 8-hour winter outing still takes about 52 Wh from the battery, because the panel only puts back about 44 Wh that day. A summer day of similar length collects about 96 Wh, which matches an 8-hour run if the radios are on while the sun is up. A night outing gets nothing from the panel until the next day.
+
+With the radios off afterward, about 0.8 A from the panel will maintain the AGM. Refilling a 50% discharge takes about two sunny summer days, or about four winter days.
+
+On a mobile outing the buck’s loss is about 1 W, roughly 8 Wh over 8 hours, against a 144 Wh working window. The voltage exposure is the same: in sun, with a battery still near full, the radios can see 27–29 V during float or absorption.
